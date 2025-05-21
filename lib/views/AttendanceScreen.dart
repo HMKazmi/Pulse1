@@ -509,3 +509,142 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     }
   }
 }
+
+// Data Models
+class AttendanceData {
+  final String studentName;
+  final String studentId;
+  final String grade;
+  final String section;
+  final String avatarUrl;
+  final TodayAttendance todayAttendance;
+  final int overallAttendance;
+  final AttendanceSummary attendanceSummary;
+  final List<AttendanceRecord> attendanceHistory;
+
+  AttendanceData({
+    required this.studentName,
+    required this.studentId,
+    required this.grade,
+    required this.section,
+    required this.avatarUrl,
+    required this.todayAttendance,
+    required this.overallAttendance,
+    required this.attendanceSummary,
+    required this.attendanceHistory,
+  });
+
+  // Factory method to parse from API response
+  factory AttendanceData.fromJson(Map<String, dynamic> json) {
+    return AttendanceData(
+      studentName: json['student_name'],
+      studentId: json['student_id'],
+      grade: json['grade'],
+      section: json['section'],
+      avatarUrl: json['avatar_url'],
+      todayAttendance: TodayAttendance.fromJson(json['today_attendance']),
+      overallAttendance: json['overall_attendance'],
+      attendanceSummary: AttendanceSummary.fromJson(json['attendance_summary']),
+      attendanceHistory:
+          (json['attendance_history'] as List)
+              .map((item) => AttendanceRecord.fromJson(item))
+              .toList(),
+    );
+  }
+}
+
+class TodayAttendance {
+  final String checkIn;
+  final String checkOut;
+  final String lastDayCheckIn;
+  final String lastDayCheckOut;
+
+  TodayAttendance({
+    required this.checkIn,
+    required this.checkOut,
+    required this.lastDayCheckIn,
+    required this.lastDayCheckOut,
+  });
+
+  factory TodayAttendance.fromJson(Map<String, dynamic> json) {
+    return TodayAttendance(
+      checkIn: json['check_in'],
+      checkOut: json['check_out'],
+      lastDayCheckIn: json['last_day_check_in'],
+      lastDayCheckOut: json['last_day_check_out'],
+    );
+  }
+}
+
+class AttendanceSummary {
+  final int daysPresent;
+  final int daysOnLeave;
+  final int daysAbsent;
+
+  AttendanceSummary({
+    required this.daysPresent,
+    required this.daysOnLeave,
+    required this.daysAbsent,
+  });
+
+  factory AttendanceSummary.fromJson(Map<String, dynamic> json) {
+    return AttendanceSummary(
+      daysPresent: json['days_present'],
+      daysOnLeave: json['days_on_leave'],
+      daysAbsent: json['days_absent'],
+    );
+  }
+}
+
+class AttendanceRecord {
+  final String date;
+  final String checkIn;
+  final String checkOut;
+  final AttendanceStatus status;
+
+  AttendanceRecord({
+    required this.date,
+    required this.checkIn,
+    required this.checkOut,
+    required this.status,
+  });
+
+  factory AttendanceRecord.fromJson(Map<String, dynamic> json) {
+    return AttendanceRecord(
+      date: json['date'],
+      checkIn: json['check_in'],
+      checkOut: json['check_out'],
+      status: AttendanceStatus.values.firstWhere(
+        (e) => e.toString().split('.').last == json['status'],
+      ),
+    );
+  }
+}
+
+class Student {
+  final String name;
+  final String id;
+  final String grade;
+  final String section;
+  final String avatarUrl;
+
+  Student({
+    required this.name,
+    required this.id,
+    required this.grade,
+    required this.section,
+    required this.avatarUrl,
+  });
+
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      name: json['name'],
+      id: json['id'],
+      grade: json['grade'],
+      section: json['section'],
+      avatarUrl: json['avatar_url'],
+    );
+  }
+}
+
+enum AttendanceStatus { present, absent, leave }
