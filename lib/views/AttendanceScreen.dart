@@ -138,13 +138,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   children: [
                     if (attendanceData != null) _buildMainStudentCard(),
                     const SizedBox(height: 16),
-                    if (attendanceData != null) _buildTodayAttendance(),
+                    if (attendanceData != null) _buildMainStudentCard(),
+
                     const SizedBox(height: 16),
-                    if (attendanceData != null) _buildAttendanceSummary(),
-                    const SizedBox(height: 16),
-                    if (attendanceData != null) _buildAttendanceHistory(),
-                    const SizedBox(height: 16),
-                    _buildOtherStudents(),
+                    if (attendanceData != null) _buildMainStudentCard(),
+                    // _buildOtherStudents(),
                     const SizedBox(height: 80),
                   ],
                 ),
@@ -158,56 +156,44 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Widget _buildMainStudentCard() {
-    final data = attendanceData!;
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.blue,
-            child: Icon(Icons.person, color: Colors.white, size: 30),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.studentName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  'ID: ${data.studentId}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                ),
-                Text(
-                  'Grade: ${data.grade}  Section: ${data.section}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                ),
-              ],
+    return ExpansionTile(
+      title: Container(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              attendanceData!.studentName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
-          ),
-          const Icon(Icons.keyboard_arrow_up, color: Colors.grey, size: 24),
-        ],
+            Text(
+              'ID: ${attendanceData!.studentId}',
+              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+            ),
+            Text(
+              'Grade: ${attendanceData!.grade}  Section: ${attendanceData!.section}',
+              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+            ),
+          ],
+        ),
       ),
+
+      leading: const CircleAvatar(
+        radius: 25,
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.person, color: Colors.white, size: 30),
+      ),
+      children: [
+        if (attendanceData != null) _buildTodayAttendance(),
+        const SizedBox(height: 16),
+        if (attendanceData != null) _buildAttendanceSummary(),
+        const SizedBox(height: 16),
+        if (attendanceData != null) _buildAttendanceHistory(),
+      ],
     );
   }
 
@@ -246,7 +232,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       color: Colors.black,
                     ),
                   ),
-                            const SizedBox(height: 5),
+                  const SizedBox(height: 5),
 
                   Row(
                     children: [
