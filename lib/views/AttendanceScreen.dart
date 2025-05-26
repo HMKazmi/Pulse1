@@ -110,10 +110,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
         title: const Text(
           'Attendance Tracking',
           style: TextStyle(
