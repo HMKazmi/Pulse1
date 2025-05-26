@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulse1/views/AttendanceScreen.dart';
 import 'package:pulse1/views/AuthScreen.dart';
+import 'package:pulse1/views/HistoryScreen.dart';
 import 'package:pulse1/views/HomeScreen.dart';
 
 void main() {
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 187, 15)),
       ),
-      home: const AttendanceScreen(),
+      home: const HistoryScreen(),
+      // home: const AttendanceScreen(),
       // home: const HomeScreen(),
       // home: const AuthScreen(),
     );
