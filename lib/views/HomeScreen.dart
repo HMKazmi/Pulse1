@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        elevation: 0,
+        elevation: 0, 
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () {},
@@ -114,5 +114,10 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+
+  Widget _appointmentBooking(){
+    return Placeholder();
   }
 }

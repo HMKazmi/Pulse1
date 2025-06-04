@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pulse1/viewmodels/attendance_viewmodel.dart';
+import 'package:pulse1/viewmodels/fee_viewmodel.dart';
 import 'package:pulse1/views/AttendanceScreen.dart';
 import 'package:pulse1/views/AuthScreen.dart';
 import 'package:pulse1/views/FeeScreen.dart';
@@ -6,7 +9,16 @@ import 'package:pulse1/views/HistoryScreen.dart';
 import 'package:pulse1/views/HomeScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => FeeViewModel()),
+        ChangeNotifierProvider(create: (context) => AttendanceViewModel()),
+        // ChangeNotifierProvider(create: (context) => AuthViewModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,11 +45,13 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 187, 15)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 255, 187, 15),
+        ),
       ),
 
       home: const FeeScreen(),
-      // home: const HistoryScreen(),
+      // home:  HistoryScreen(),
       // home: const AttendanceScreen(),
       // home: const HomeScreen(),
       // home: const AuthScreen(),
