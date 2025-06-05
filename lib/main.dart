@@ -50,10 +50,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: const FeeScreen(),
+      // home: const FeeScreen(),
       // home:  HistoryScreen(),
       // home: const AttendanceScreen(),
-      // home: const HomeScreen(),
+      home: const HomeScreen(),
       // home: const AuthScreen(),
     );
   }
