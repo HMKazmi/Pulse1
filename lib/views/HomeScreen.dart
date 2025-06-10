@@ -159,189 +159,185 @@ class AppointmentFormView extends StatelessWidget {
             title: const Text('Appointment Booking'),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              
             ),
             content: SingleChildScrollView(
-              child: Column(
+              child: Table(
+                columnWidths: const {
+                  0: IntrinsicColumnWidth(), // Auto-size based on label width
+                  1: FlexColumnWidth(), // Field takes remaining space
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
-                  Row(
-                    children: [
-                      const Text('Visit Type:'),
-                      const SizedBox(
-                        width: 16,
-                      ), // Add spacing between label and dropdown
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          
-                          value: viewModel.visitType,
-                          items:
-                              viewModel.visitTypes
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              viewModel.setVisitType(value);
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            border:
-                                OutlineInputBorder(), // optional, for a better visual
-                            isDense: true, // optional, for compact layout
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Date:'),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            isDense: true,
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.calendar_today),
-                              onPressed: () async {
-                                final picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2100),
-                                );
-                                if (picked != null) {
-                                  viewModel.setDate(picked);
-                                }
-                              },
-                            ),
-                          ),
-                          controller: TextEditingController(
-                            text:
-                                viewModel.selectedDate != null
-                                    ? viewModel.selectedDate!
-                                        .toLocal()
-                                        .toString()
-                                        .split(' ')[0]
-                                    : 'Date',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Time:'),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            isDense: true,
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.access_time),
-                              onPressed: () async {
-                                final picked = await showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now(),
-                                );
-                                if (picked != null) {
-                                  viewModel.setTime(picked);
-                                }
-                              },
-                            ),
-                          ),
-                          controller: TextEditingController(
-                            text:
-                                viewModel.selectedTime != null
-                                    ? viewModel.selectedTime!.format(context)
-                                    : 'Time',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Class:'),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          value: viewModel.selectedClass,
-                          items:
-                              viewModel.classes
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              viewModel.setClass(value);
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  TableRow(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(
-                          top: 12,
-                        ), // Aligns with multi-line input
+                        padding: EdgeInsets.only(right: 16),
+                        child: Text('Visit Type:'),
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: viewModel.visitType,
+                        items:
+                            viewModel.visitTypes
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          if (value != null) {
+                            viewModel.setVisitType(value);
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const TableRow(
+                    children: [SizedBox(height: 10), SizedBox(height: 10)],
+                  ),
+                  TableRow(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: Text('Date:'),
+                      ),
+                      TextFormField(
+                        readOnly: true,
+                        controller: TextEditingController(
+                          text:
+                              viewModel.selectedDate != null
+                                  ? viewModel.selectedDate!
+                                      .toLocal()
+                                      .toString()
+                                      .split(' ')[0]
+                                  : 'Date',
+                        ),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.calendar_today),
+                            onPressed: () async {
+                              final picked = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null) {
+                                viewModel.setDate(picked);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const TableRow(
+                    children: [SizedBox(height: 10), SizedBox(height: 10)],
+                  ),
+                  TableRow(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: Text('Time:'),
+                      ),
+                      TextFormField(
+                        readOnly: true,
+                        controller: TextEditingController(
+                          text:
+                              viewModel.selectedTime != null
+                                  ? viewModel.selectedTime!.format(context)
+                                  : 'Time',
+                        ),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.access_time),
+                            onPressed: () async {
+                              final picked = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                              if (picked != null) {
+                                viewModel.setTime(picked);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const TableRow(
+                    children: [SizedBox(height: 10), SizedBox(height: 10)],
+                  ),
+                  TableRow(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: Text('Class:'),
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: viewModel.selectedClass,
+                        items:
+                            viewModel.classes
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          if (value != null) {
+                            viewModel.setClass(value);
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const TableRow(
+                    children: [SizedBox(height: 10), SizedBox(height: 10)],
+                  ),
+                  TableRow(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 16, top: 12),
                         child: Text('Teacher:'),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                          ),
-                          onChanged: viewModel.setTeacher,
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
                         ),
+                        onChanged: viewModel.setTeacher,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const TableRow(
+                    children: [SizedBox(height: 10), SizedBox(height: 10)],
+                  ),
+                  TableRow(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(top: 12),
+                        padding: EdgeInsets.only(right: 16, top: 12),
                         child: Text('Reason:'),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          maxLines: 3,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: viewModel.setReason,
+                      TextFormField(
+                         decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
                         ),
+                        onChanged: viewModel.setReason,
                       ),
                     ],
                   ),
